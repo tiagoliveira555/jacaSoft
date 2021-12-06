@@ -352,13 +352,13 @@ public class TelaVenda extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Venda", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
-        tblVendas.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tblVendas.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tblVendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Id Venda", "Hora da Venda", "SubTotal", "Cliente"
+                "Id Venda", "Hora da Venda", "Cliente", "SubTotal"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -389,9 +389,9 @@ public class TelaVenda extends javax.swing.JFrame {
             tblVendas.getColumnModel().getColumn(1).setResizable(false);
             tblVendas.getColumnModel().getColumn(1).setPreferredWidth(50);
             tblVendas.getColumnModel().getColumn(2).setResizable(false);
-            tblVendas.getColumnModel().getColumn(2).setPreferredWidth(50);
+            tblVendas.getColumnModel().getColumn(2).setPreferredWidth(300);
             tblVendas.getColumnModel().getColumn(3).setResizable(false);
-            tblVendas.getColumnModel().getColumn(3).setPreferredWidth(300);
+            tblVendas.getColumnModel().getColumn(3).setPreferredWidth(50);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -412,7 +412,7 @@ public class TelaVenda extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Itens da Venda", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
-        tblItensVenda.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tblItensVenda.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tblItensVenda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -557,7 +557,7 @@ public class TelaVenda extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        controller.evento("TELA_OPEN");
+        //controller.evento("TELA_OPEN");
     }//GEN-LAST:event_formWindowActivated
 
     public static void main(String args[]) {

@@ -2,9 +2,11 @@ package controller;
 
 import dao.ClienteDAO;
 import java.awt.Color;
+import java.awt.Font;
 import java.util.List;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import model.Cliente;
 import utils.Mensagem;
 import view.TelaCliente;
@@ -43,6 +45,12 @@ public class ClienteController {
     private void fechar() {
         cancelar();
         view.dispose();
+    }
+    
+    private void estiloTabela() {
+        JTableHeader header = view.getTblClientes().getTableHeader();
+        header.setFont(new Font("Tahoma", Font.BOLD, 12));
+        header.setForeground(Color.blue);
     }
 
     private void novo() {
@@ -114,6 +122,7 @@ public class ClienteController {
                 cliente.getSexo()
             });
         });
+        estiloTabela();
     }
 
     private void pesquisar() {

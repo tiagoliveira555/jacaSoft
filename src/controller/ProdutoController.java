@@ -2,8 +2,12 @@ package controller;
 
 import dao.ProdutoDAO;
 import java.awt.Color;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import model.Produto;
 import utils.Mensagem;
 import view.TelaProduto;
@@ -36,6 +40,22 @@ public class ProdutoController {
     private void fechar() {
         view.dispose();
     }
+    
+    private void estiloTabela() {
+        JTableHeader header = view.getTblProdutos().getTableHeader();
+        header.setFont(new Font("Tahoma", Font.BOLD, 12));
+        header.setForeground(Color.blue);
+        
+        DefaultTableCellRenderer centro = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer right = new DefaultTableCellRenderer();
+        centro.setHorizontalAlignment(SwingConstants.CENTER);
+        right.setHorizontalAlignment(SwingConstants.RIGHT);        
+        
+        view.getTblProdutos().getColumnModel().getColumn(2).setCellRenderer(centro);
+        view.getTblProdutos().getColumnModel().getColumn(3).setCellRenderer(centro);
+        view.getTblProdutos().getColumnModel().getColumn(4).setCellRenderer(right);
+        view.getTblProdutos().getColumnModel().getColumn(5).setCellRenderer(right);
+    }
 
     private void limpar() {
         view.getTxtCodigo().setText("");
@@ -63,6 +83,7 @@ public class ProdutoController {
                 String.format("%.2f", produto.getValor())
             });
         });
+        estiloTabela();
     }
 
     private void setarCampos() {

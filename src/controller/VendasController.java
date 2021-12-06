@@ -4,12 +4,18 @@ import dao.ClienteDAO;
 import dao.ItensVendaDAO;
 import dao.ProdutoDAO;
 import dao.VendaDAO;
+import java.awt.Color;
+import java.awt.Font;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import model.Cliente;
 import model.ItensVenda;
 import model.Produto;
@@ -21,11 +27,10 @@ public class VendasController {
 
     private final TelaVenda view;
     ArrayList<ItensVenda> itens = new ArrayList();
-    DefaultComboBoxModel comboBoxClientes;
-    DefaultComboBoxModel comboBoxProdutos;
 
     public VendasController(TelaVenda view) {
         this.view = view;
+        telaOpen();
     }
 
     public void evento(String evento) {
@@ -58,10 +63,11 @@ public class VendasController {
         preencherComboBoxProduto();
         numVenda();
         preencherTabelaVendas();
+        estiloTabelas();
     }
 
     private void preencherComboBoxCliente() {
-        comboBoxClientes = (DefaultComboBoxModel) view.getCbxCliente().getModel();
+        DefaultComboBoxModel comboBoxClientes = (DefaultComboBoxModel) view.getCbxCliente().getModel();
 
         ClienteDAO.obterAll().forEach(cliente -> {
             comboBoxClientes.addElement(cliente);
@@ -69,10 +75,39 @@ public class VendasController {
     }
 
     private void preencherComboBoxProduto() {       
-        comboBoxProdutos = (DefaultComboBoxModel) view.getCbxProduto().getModel();
+        DefaultComboBoxModel comboBoxProdutos = (DefaultComboBoxModel) view.getCbxProduto().getModel();
         ProdutoDAO.listarProdutos().forEach(produto -> {
             comboBoxProdutos.addElement(produto);
         });
+    }
+    
+    private void estiloTabelas() {
+        JTableHeader headerVenda = view.getTblVenda().getTableHeader();
+        JTableHeader headerVendas = view.getTblVendas().getTableHeader();
+        JTableHeader headerItens = view.getTblItensVenda().getTableHeader();
+        headerVenda.setFont(new Font("Tahoma", Font.BOLD, 12));
+        headerVenda.setForeground(Color.blue);
+        headerVendas.setFont(new Font("Tahoma", Font.BOLD, 12));
+        headerVendas.setForeground(Color.blue);
+        headerItens.setFont(new Font("Tahoma", Font.BOLD, 12));
+        headerItens.setForeground(Color.blue);
+        
+        DefaultTableCellRenderer centro = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer right = new DefaultTableCellRenderer();
+        centro.setHorizontalAlignment(SwingConstants.CENTER);
+        right.setHorizontalAlignment(SwingConstants.RIGHT);
+        
+        
+        view.getTblVenda().getColumnModel().getColumn(3).setCellRenderer(centro);
+        view.getTblVenda().getColumnModel().getColumn(4).setCellRenderer(right);
+        view.getTblVenda().getColumnModel().getColumn(5).setCellRenderer(right);
+        
+        view.getTblVendas().getColumnModel().getColumn(2).setCellRenderer(centro);
+        view.getTblVendas().getColumnModel().getColumn(3).setCellRenderer(right);
+        
+        view.getTblItensVenda().getColumnModel().getColumn(2).setCellRenderer(centro);
+        view.getTblItensVenda().getColumnModel().getColumn(3).setCellRenderer(right);
+        view.getTblItensVenda().getColumnModel().getColumn(4).setCellRenderer(right);
     }
 
     //atibui o número da venda
@@ -302,9 +337,9 @@ public class VendasController {
         itensVenda.forEach(venda -> {
             tabela.addRow(new Object[]{
                 venda[0],
-                venda[1],
-                String.format("%.2f", venda[2]),
-                venda[3]
+                venda[1],                
+                venda[2],
+                String.format("%.2f", venda[3])
             });
         });
         DefaultTableModel tabelaItens = (DefaultTableModel) view.getTblItensVenda().getModel();

@@ -65,7 +65,7 @@ public class VendaDAO {
 
         List<Object[]> vendas = new ArrayList();
 
-        String sql = "SELECT V.id_venda, V.data, V.subtotal, C.nome "
+        String sql = "SELECT V.id_venda, V.data, C.nome, V.subtotal "
                 + "FROM tbvendas as V JOIN tbclientes as C "
                 + "ON (V.cliente = C.id);";
 
@@ -80,8 +80,8 @@ public class VendaDAO {
                 Object[] venda = new Object[]{
                     rs.getInt(1),
                     rs.getString(2),
-                    rs.getFloat(3),
-                    rs.getString(4)
+                    rs.getString(3),
+                    rs.getFloat(4)
                 };
                 vendas.add(venda);
             }
@@ -97,7 +97,7 @@ public class VendaDAO {
 
         List<Object[]> vendas = new ArrayList();
 
-        String sql = "SELECT V.id_venda, V.data, V.subtotal, C.nome "
+        String sql = "SELECT V.id_venda, V.data, C.nome, V.subtotal "
                 + "FROM tbvendas as V JOIN tbclientes as C "
                 + "ON (V.cliente = C.id) WHERE id_venda = ?;";
 
@@ -113,8 +113,8 @@ public class VendaDAO {
                 Object[] venda = new Object[]{
                     rs.getInt(1),
                     rs.getString(2),
-                    rs.getFloat(3),
-                    rs.getString(4)
+                    rs.getString(3),
+                    rs.getFloat(4)
                 };
                 vendas.add(venda);
             }
