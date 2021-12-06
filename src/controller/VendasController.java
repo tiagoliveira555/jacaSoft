@@ -330,4 +330,8 @@ public class VendasController {
             });
         }
     }
+    
+    private void teste() {
+        
+    }
 }
