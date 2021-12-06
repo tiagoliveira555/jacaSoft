@@ -1,6 +1,8 @@
 package controller;
 
 import dao.ProdutoDAO;
+import java.awt.Color;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import model.Produto;
 import utils.Mensagem;
@@ -44,6 +46,7 @@ public class ProdutoController {
         view.getTxtValor().setText("");
         view.getTblProdutos().setSelectionMode(0);
         alterar = false;
+        setarCorBorda();
     }
 
     private void preencherTabela() {
@@ -72,6 +75,7 @@ public class ProdutoController {
             view.getTxtCusto().setText(view.getTblProdutos().getValueAt(row, 4).toString());
             view.getTxtValor().setText(view.getTblProdutos().getValueAt(row, 5).toString());
             alterar = true;
+            setarCorBorda();
         }
     }
 
@@ -87,34 +91,40 @@ public class ProdutoController {
         return produto;
     }
 
-    private void salvarProduto() {        
-        Produto produto = obterProduto();
-
-        if (!alterar) {
-            String res = ProdutoDAO.salvar(produto);
-            switch (res) {
-                case "" ->
-                    Mensagem.informacao("Produto salvo com sucesso!");
-                case "id" ->
-                    Mensagem.informacao("Já existe produto com esse Id!");
-                default ->
-                    Mensagem.informacao("Erro ao salvar o produto!");
+    private void salvarProduto() {
+        String validar = verificarCamposVazios();
+        if (validar.equals("")) {
+            Produto produto = obterProduto();
+            if (!alterar) {
+                String res = ProdutoDAO.salvar(produto);
+                switch (res) {
+                    case "" ->
+                        Mensagem.informacao("Produto salvo com sucesso!");
+                    case "id" ->
+                        Mensagem.informacao("Já existe produto com esse Id!");
+                    default ->
+                        Mensagem.informacao("Erro ao salvar o produto!");
+                }
+            } else {
+                int row = view.getTblProdutos().getSelectedRow();
+                int id = Integer.parseInt(view.getTblProdutos().getValueAt(row, 0).toString());
+                String res = ProdutoDAO.alterar(produto, id);
+                switch (res) {
+                    case "" ->
+                        Mensagem.informacao("Produto alterado com sucesso!");
+                    case "id" ->
+                        Mensagem.informacao("Já existe produto com esse Id!");
+                    default ->
+                        Mensagem.informacao("Erro ao alterar o produto!");
+                }
             }
+            setarCorBorda();
+            limpar();
+            preencherTabela();
         } else {
-            int row = view.getTblProdutos().getSelectedRow();
-            int id = Integer.parseInt(view.getTblProdutos().getValueAt(row, 0).toString());
-            String res = ProdutoDAO.alterar(produto, id);
-            switch (res) {
-                case "" ->
-                    Mensagem.informacao("Produto alterado com sucesso!");
-                case "id" ->
-                    Mensagem.informacao("Já existe produto com esse Id!");
-                default ->
-                    Mensagem.informacao("Erro ao alterar o produto!");
-            }
+            Mensagem.informacao("O(s) campo(s) abaixo:\n" + validar
+                    + "\nPrecisam ser preenchidos,\npreencha e tente novamente!");
         }
-        limpar();
-        preencherTabela();
     }
 
     private void excluir() {
@@ -133,5 +143,63 @@ public class ProdutoController {
         }
         limpar();
         preencherTabela();
+    }
+
+    private String verificarCamposVazios() {
+
+        String retorno = "";
+
+        if (view.getTxtCodigo().getText().equals("")) {
+            retorno += "Código\n";
+            view.getTxtCodigo().setBorder(new LineBorder(Color.red));
+        } else {
+            view.getTxtCodigo().setBorder(new LineBorder(Color.lightGray));
+        }
+
+        if (view.getTxtNome().getText().equals("")) {
+            retorno += "Nome\n";
+            view.getTxtNome().setBorder(new LineBorder(Color.red));
+        } else {
+            view.getTxtNome().setBorder(new LineBorder(Color.lightGray));
+        }
+
+        if (view.getCbxTipo().getSelectedItem().equals("Selecione...")) {
+            retorno += "Tipo\n";
+            view.getCbxTipo().setBorder(new LineBorder(Color.red));
+        } else {
+            view.getCbxTipo().setBorder(new LineBorder(Color.lightGray));
+        }
+
+        if (view.getTxtEstoque().getText().equals("")) {
+            retorno += "Estoque\n";
+            view.getTxtEstoque().setBorder(new LineBorder(Color.red));
+        } else {
+            view.getTxtEstoque().setBorder(new LineBorder(Color.lightGray));
+        }
+
+        if (view.getTxtCusto().getText().equals("")) {
+            retorno += "Custo\n";
+            view.getTxtCusto().setBorder(new LineBorder(Color.red));
+        } else {
+            view.getTxtCusto().setBorder(new LineBorder(Color.lightGray));
+        }
+
+        if (view.getTxtValor().getText().equals("")) {
+            retorno += "Valor Venda\n";
+            view.getTxtValor().setBorder(new LineBorder(Color.red));
+        } else {
+            view.getTxtValor().setBorder(new LineBorder(Color.lightGray));
+        }
+
+        return retorno;
+    }
+
+    private void setarCorBorda() {
+        view.getTxtCodigo().setBorder(new LineBorder(Color.lightGray));
+        view.getTxtNome().setBorder(new LineBorder(Color.lightGray));
+        view.getCbxTipo().setBorder(new LineBorder(Color.lightGray));
+        view.getTxtEstoque().setBorder(new LineBorder(Color.lightGray));
+        view.getTxtCusto().setBorder(new LineBorder(Color.lightGray));
+        view.getTxtValor().setBorder(new LineBorder(Color.lightGray));
     }
 }
